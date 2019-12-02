@@ -8,6 +8,10 @@
     <artifactId>esn-ms-docker</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <env.file.path>target/classes/docker/env/${env.config.file}.properties</env.file.path>
+        <mustache.mode>mustache-tovalue</mustache.mode>
+    </properties>
     <build>
         <resources>
             <resource>
@@ -19,6 +23,74 @@
                 </includes>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>com.xebialabs.utils</groupId>
+                <artifactId>placeholders-mustachifier-maven-plugin</artifactId>
+                <version>0.4</version>
+                <configuration>
+                    <delimiters>{{ }}</delimiters>
+                    <filesets>
+                        <fileset>
+                            <directory>target/classes/docker/aws</directory>
+                            <include>**/**.yml</include>
+                        </fileset>
+                    </filesets>
+                    <valueProvider>
+                        <file>
+                            <path>${env.file.path}</path>
+                        </file>
+
+                    </valueProvider>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>Mustachify resources for distribution</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>${mustache.mode}</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
+
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <app.version>latest</app.version>
+                <mustache.mode>mustache-tovalue</mustache.mode>
+                <env.config.file>local</env.config.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <app.version>latest</app.version>
+                <mustache.mode>mustache-tovalue</mustache.mode>
+                <env.config.file>dev</env.config.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>ppr</id>
+            <properties>
+                <app.version>latest</app.version>
+                <mustache.mode>mustache-tovalue</mustache.mode>
+                <env.config.file>ppr</env.config.file>
+            </properties>
+        </profile>
+        <!-- For production env prefer not put config file on git. use -Denv.file.path-->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <mustache.mode>mustache-tovalue</mustache.mode>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

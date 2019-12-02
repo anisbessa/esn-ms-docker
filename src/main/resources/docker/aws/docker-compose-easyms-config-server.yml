@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+
+
+  ################# Easyms Config Server ####################
+  easyms-config-server:
+    container_name: easyms-config-server
+    image: 738739307270.dkr.ecr.eu-west-1.amazonaws.com/easyms-config-server:@app.version@
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      HEALTHCHECK_PORT: 2001
+      HEALTHCHECK_NEXT_EXECUTION: 5
+      JAVA_OPTS: -Xms128m -Xmx256m
+      JVM_GC_THREADS: 2
+      PROJECT_ID: esn
+      app.id: easyms-config-server
+    ports:
+      - 2001:2001
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: {{aws.log.group}}
+        awslogs-region: {{aws.region}}
+        awslogs-stream-prefix: easyms-config-server

@@ -3,23 +3,23 @@ version: "2"
 services:
 
 
-  ################# Esn Candidats ####################
-  esn-candidats:
-    container_name: esn-candidats
-    image: 738739307270.dkr.ecr.eu-west-1.amazonaws.com/esn-candidats:@app.version@
+  ################# Easyms Admin ####################
+  easyms-admin:
+    container_name: easyms-admin
+    image: 738739307270.dkr.ecr.eu-west-1.amazonaws.com/easyms-admin:@app.version@
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      HEALTHCHECK_PORT: 8098
+      HEALTHCHECK_PORT: 2003
       HEALTHCHECK_NEXT_EXECUTION: 5
       JAVA_OPTS: -Xms128m -Xmx256m
       JVM_GC_THREADS: 2
       PROJECT_ID: esn
-      app.id: esn-candidats
+      app.id: easyms-admin
     ports:
-      - 8098:8098
+      - 2003:2003
     logging:
       driver: awslogs
       options:
         awslogs-group: {{aws.log.group}}
         awslogs-region: {{aws.region}}
-        awslogs-stream-prefix: esn-candidats
+        awslogs-stream-prefix: easyms-admin
