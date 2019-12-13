@@ -12,6 +12,7 @@ services:
       HEALTHCHECK_PORT: 2003
       HEALTHCHECK_NEXT_EXECUTION: 5
       JAVA_OPTS: -Xms128m -Xmx256m
+      SPRING_CLOUD_CONFIG_URI: {{spring.cloud.config.uri}}
       JVM_GC_THREADS: 2
       PROJECT_ID: esn
       app.id: easyms-admin
