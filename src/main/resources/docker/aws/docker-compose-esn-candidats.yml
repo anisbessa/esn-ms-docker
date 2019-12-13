@@ -14,6 +14,7 @@ services:
       JAVA_OPTS: -Xms128m -Xmx256m
       JVM_GC_THREADS: 2
       PROJECT_ID: esn
+      SPRING_CLOUD_CONFIG_URI: {{spring.cloud.config.uri}}
       app.id: esn-candidats
     ports:
       - 8098:8098
